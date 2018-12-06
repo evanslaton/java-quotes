@@ -17,10 +17,12 @@ public class Quote {
     }
 
     public static String searchAuthor(Quote[] array, String name){
+        System.out.println("######################");
         for(int i = 0; i < array.length; i++) {
             if (array[i].author == name) {
                 return array[i].toString();
             }
+//            System.out.println("IN FOR LOoP");
         }
         return name + " not found.";
     }
