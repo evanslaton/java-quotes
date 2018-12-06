@@ -16,7 +16,10 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println(readFile()[0].toString());
+
+        Quote[] quotes = readFile();
+        int rand = getRandom(quotes);
+        System.out.println(quotes[rand].toString());
     }
 
     //method to read the the JSON file 
@@ -33,4 +36,7 @@ public class App {
     }
 
     // Gets a random number
+    public static int getRandom(Quote[] array) {
+        return (int) Math.floor(Math.random()*(array.length +1));
+    }
 }
