@@ -5,8 +5,41 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AppTest {
-    @Test public void testAppHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    @Test public void testToString() {
+
+        String[] tags = {"Hi"};
+        Quote quote = new Quote(tags, "Author", "Likes", "text");
+
+        assertEquals("text --Author", quote.toString());
+
+        quote = new Quote(tags, "Shakespeare", "Likes", "To be or not");
+        assertEquals("To be or not --Shakespeare", quote.toString());
     }
+
+    @Test public void testGetRandom() {
+
+        int num = App.getRandom(10);
+        assertTrue("Expect to be in rage of 10", 0 <= num  && num<= 10);
+        num = App.getRandom(10);
+        assertTrue("Expect to be in rage of 10", 0 <= num  && num<= 10);
+        num = App.getRandom(10);
+        assertTrue("Expect to be in rage of 10", 0 <= num  && num<= 10);
+
+        num = App.getRandom(200);
+        assertTrue("Expect to be in rage of 200", 0 <= num  && num<= 200);
+        num = App.getRandom(200);
+        assertTrue("Expect to be in rage of 200", 0 <= num  && num<= 200);
+        num = App.getRandom(200);
+        assertTrue("Expect to be in rage of 200", 0 <= num  && num<= 200);
+    }
+
+    @Test public void testReadFile() {
+
+    }
+
+    @Test public void testMain() {
+
+    }
+
+
 }
