@@ -18,7 +18,7 @@ public class App {
     public static void main(String[] args) {
 
         Quote[] quotes = readFile();
-        int rand = getRandom(quotes);
+        int rand = getRandom(quotes.length);
         System.out.println(quotes[rand].toString());
     }
 
@@ -36,7 +36,7 @@ public class App {
     }
 
     // Gets a random number
-    public static int getRandom(Quote[] array) {
-        return (int) Math.floor(Math.random()*(array.length +1));
+    public static int getRandom(int num) {
+        return (int) Math.floor(Math.random()*(num));
     }
 }
