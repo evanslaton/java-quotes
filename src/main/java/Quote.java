@@ -15,4 +15,13 @@ public class Quote {
     public String toString() {
         return this.text + " --" + this.author;
     }
+
+    public static String searchAuthor(Quote[] array, String name){
+        for(int i = 0; i < array.length; i++) {
+            if (array[i].author == name) {
+                return array[i].toString();
+            }
+        }
+        return name + " not found.";
+    }
 }
