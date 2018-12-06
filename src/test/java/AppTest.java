@@ -63,7 +63,8 @@ public class AppTest {
     }
 
     @Test public void testMain() {
-        String[] empty = new String[0];
+        String[] empty = new String[1];
+        empty[0] = "test";
         App.main(empty);
         assertTrue("Does not equal null", outContent.toString() != null);
     }
