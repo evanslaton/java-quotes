@@ -20,7 +20,7 @@ public class App {
         Quote[] quotes = readFile();
         int rand = getRandom(quotes.length);
 
-        //search for 
+        //search for
         if (args[0].equals("author")){
             System.out.println(args[0]);
             System.out.println(Quote.searchAuthor(quotes, args[1]));
