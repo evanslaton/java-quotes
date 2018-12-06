@@ -19,7 +19,17 @@ public class App {
 
         Quote[] quotes = readFile();
         int rand = getRandom(quotes.length);
-        System.out.println(quotes[rand].toString());
+
+        if (args[0].equals("author")){
+            System.out.println(args[0]);
+            System.out.println(Quote.searchAuthor(quotes, args[1]));
+        }
+//        if else (args[0].equals("contains")){
+//            Quote.searchContains(quotes, args[1]);
+//        }
+        else {
+            System.out.println(quotes[rand].toString());
+        }
     }
 
     //method to read the the JSON file 
