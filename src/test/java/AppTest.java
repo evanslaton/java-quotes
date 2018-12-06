@@ -67,4 +67,21 @@ public class AppTest {
         App.main(empty);
         assertTrue("Does not equal null", outContent.toString() != null);
     }
+
+    @Test public void testSearchAuthor(){
+
+        Quote[] quotes = App.readFile();
+
+        assertEquals("123 not found.", Quote.searchAuthor(quotes, "123"));
+        assertEquals(" “build a”  --Judy Yogev", Quote.searchAuthor(quotes, "Judy Yogev"));
+        assertEquals(" “build a”  --Judy Yogev", Quote.searchAuthor(quotes, "Judy"));
+    }
+
+    @Test public void testSearchContains() {
+
+        Quote[] quotes = App.readFile();
+
+        assertTrue("Expect to get something with 'and'", Quote.searchContains(quotes, "and").contains("and"));
+        assertEquals("nvjenrvijfnjvdfniv not found.", Quote.searchContains(quotes, "nvjenrvijfnjvdfniv"));
+    }
 }
