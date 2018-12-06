@@ -26,4 +26,13 @@ public class Quote {
         }
         return name + " not found.";
     }
+
+    public static String searchContains(Quote[] array, String contains) {
+        for(int i = 0; i < array.length; i++) {
+            if (array[i].text.contains(contains)) {
+                return array[i].toString();
+            }
+        }
+        return contains + " not found.";
+    }
 }
