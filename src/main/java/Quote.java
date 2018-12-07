@@ -5,6 +5,7 @@ public class Quote {
     protected String likes;
     protected String text;
 
+    // Constructor
     public Quote (String[] tags, String author, String likes, String text) {
         this.tags = tags;
         this.author = author;
@@ -12,12 +13,12 @@ public class Quote {
         this.text = text;
     }
 
-    // this method prints a quote and author
+    // Returns a quote and its author
     public String toString() {
         return this.text + " --" + this.author;
     }
 
-    // this method searches the authors in a Quote[] and returns the quote
+    // Returns the first quote from a specific author from an array of quotes
     public static String searchAuthor(Quote[] array, String name){
         for(int i = 0; i < array.length; i++) {
             if (array[i].author.contains(name)) {
@@ -27,7 +28,7 @@ public class Quote {
         return name + " not found.";
     }
 
-    // this method searches the Quote[] for any text that contains the input string and returns a quote
+    // Returns the first quote that contains a specific word from an array of quotes
     public static String searchContains(Quote[] array, String contains) {
         for(int i = 0; i < array.length; i++) {
             if (array[i].text.contains(contains)) {
