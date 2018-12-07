@@ -11,28 +11,26 @@ import java.io.PrintStream;
 import static org.junit.Assert.*;
 
 public class AppTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
-
-    @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
-    }
-
-    @After
-    public void restoreStreams() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
-    }
+//    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+//    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+//    private final PrintStream originalOut = System.out;
+//    private final PrintStream originalErr = System.err;
+//
+//    @Before
+//    public void setUpStreams() {
+//        System.setOut(new PrintStream(outContent));
+//        System.setErr(new PrintStream(errContent));
+//    }
+//
+//    @After
+//    public void restoreStreams() {
+//        System.setOut(originalOut);
+//        System.setErr(originalErr);
+//    }
 
     @Test public void testToString() {
-
         String[] tags = {"Hi"};
         Quote quote = new Quote(tags, "Author", "Likes", "text");
-
         assertEquals("text --Author", quote.toString());
 
         quote = new Quote(tags, "Shakespeare", "Likes", "To be or not");
@@ -40,7 +38,6 @@ public class AppTest {
     }
 
     @Test public void testGetRandom() {
-
         int num = App.getRandom(10);
         assertTrue("Expect to be in rage of 10", 0 <= num  && num<= 10);
         num = App.getRandom(10);
@@ -62,26 +59,15 @@ public class AppTest {
         assertFalse("Should not be null", quotes == null);
     }
 
-    @Test public void testMain() {
-        String[] empty = new String[1];
-        empty[0] = "test";
-        App.main(empty);
-        assertTrue("Does not equal null", outContent.toString() != null);
-    }
-
     @Test public void testSearchAuthor(){
-
         Quote[] quotes = App.readFile();
-
         assertEquals("123 not found.", Quote.searchAuthor(quotes, "123"));
         assertEquals(" “build a”  --Judy Yogev", Quote.searchAuthor(quotes, "Judy Yogev"));
         assertEquals(" “build a”  --Judy Yogev", Quote.searchAuthor(quotes, "Judy"));
     }
 
     @Test public void testSearchContains() {
-
         Quote[] quotes = App.readFile();
-
         assertTrue("Expect to get something with 'and'", Quote.searchContains(quotes, "and").contains("and"));
         assertEquals("nvjenrvijfnjvdfniv not found.", Quote.searchContains(quotes, "nvjenrvijfnjvdfniv"));
     }
