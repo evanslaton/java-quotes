@@ -10,7 +10,7 @@ public class InternetQuoteGetter {
     // Converts the internet quote to an instance of Quote
     public static Quote getInternetQuote() {
         String randomQuote = getRandomQuoteFromInternet();
-        String author = getIinternetQuoteAuthor(randomQuote);
+        String author = getInternetQuoteAuthor(randomQuote);
         String text = getInternetQuoteText(randomQuote);
         Quote quote = new Quote(null, author, null, text);
         return quote;
@@ -39,7 +39,7 @@ public class InternetQuoteGetter {
     }
 
     // Gets the internet quote's author
-    protected static String getIinternetQuoteAuthor(String internetQuote) {
+    protected static String getInternetQuoteAuthor(String internetQuote) {
         return internetQuote.split("\",")[1].split(":\"")[1];
     }
 

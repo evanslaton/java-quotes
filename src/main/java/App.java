@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 /*
@@ -14,16 +15,21 @@ import java.util.stream.Collectors;
  */
 public class App {
     public static void main(String[] args) {
-        InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
-        Quote randomQuote = internetQuoteGetter.getInternetQuote();
-        System.out.println(randomQuote.toString());
+        // Gets random internet quote
+//        InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
+//        Quote randomQuote = internetQuoteGetter.getInternetQuote();
+//        System.out.println(randomQuote.toString());
 
-//        Path file = Paths.get("./resources/recentquotes.json");
-//        BufferedReader quotesFile = readJsonFile(file);
-//        Quote[] quotes = parseJson(quotesFile);
-//        int rand = getRandom(quotes.length);
-//
-//        // Search for
+        // Gets random quote from the list of saved quotes
+        FileQuoteGetter fileQuoteGetter = new FileQuoteGetter();
+        Path file = Paths.get("./resources/recentquotes.json");
+        Quote[] quotes = fileQuoteGetter.getFileQuotes(file);
+        int randomNumber = fileQuoteGetter.getRandomNumber(quotes.length);
+        System.out.println(quotes[randomNumber].toString());
+
+
+
+        // Search for
 //        if (args.length > 0) {
 //            if (args[0].equals("author")){
 //                System.out.println(args[0]);
@@ -35,27 +41,5 @@ public class App {
 //        } else {
 //            System.out.println(quotes[rand].toString());
 //        }
-    }
-
-    // Reads a and returns a json file
-    public static BufferedReader readJsonFile(Path path) {
-        try {
-            BufferedReader file = Files.newBufferedReader(path);
-            return file;
-        } catch (IOException error) {
-            System.err.format("IOException: %s%n", error);
-        }
-        return null;
-    }
-
-    // Parses a json file using gson and returns an array of Quote instances
-    public static Quote[] parseJson(BufferedReader file) {
-            Gson gson = new Gson();
-            return gson.fromJson(file, Quote[].class);
-    }
-
-    // Gets a random number
-    public static int getRandom(int num) {
-        return (int) Math.floor(Math.random()*(num));
     }
 }
