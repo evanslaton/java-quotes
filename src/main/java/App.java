@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
  */
 public class App {
     public static void main(String[] args) {
-
-        String randomQuote = getRandomQuoteFromInternet();
-        System.out.println(randomQuote);
-                System.out.println("***************************");
-        System.out.println(randomQuote.split("\",")[0]);
+        InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
+        Quote randomQuote = internetQuoteGetter.getInternetQuote();
+        System.out.println(randomQuote.toString());
 
 //        Path file = Paths.get("./resources/recentquotes.json");
 //        BufferedReader quotesFile = readJsonFile(file);
@@ -37,28 +35,6 @@ public class App {
 //        } else {
 //            System.out.println(quotes[rand].toString());
 //        }
-    }
-
-    // Gets a random quotes from the Formismatic API
-    public static String getRandomQuoteFromInternet() {
-        try {
-            // Sends a GET request to Formismatic
-            URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            // Saves the response as a string
-            BufferedReader response = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine = response.readLine();
-
-            // Closes the connection
-            response.close();
-            connection.disconnect();
-            return inputLine;
-        } catch (IOException error) {
-            System.out.println(error);
-        }
-        return null;
     }
 
     // Reads a and returns a json file
