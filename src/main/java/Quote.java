@@ -1,5 +1,4 @@
 public class Quote {
-
     protected String[] tags;
     protected String author;
     protected String likes;
@@ -15,7 +14,7 @@ public class Quote {
 
     // Returns a quote and its author
     public String toString() {
-        return this.text + " --" + this.author;
+        return this.text + " -" + this.author;
     }
 
     // Returns the first quote from a specific author from an array of quotes

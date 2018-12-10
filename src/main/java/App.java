@@ -1,12 +1,12 @@
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 /*
@@ -14,72 +14,50 @@ import java.util.stream.Collectors;
  */
 public class App {
     public static void main(String[] args) {
-
-        String randomQuote = getRandomQuoteFromInternet();
-        System.out.println(randomQuote);
-                System.out.println("***************************");
-        System.out.println(randomQuote.split("\",")[0]);
-
-//        Path file = Paths.get("./resources/recentquotes.json");
-//        BufferedReader quotesFile = readJsonFile(file);
-//        Quote[] quotes = parseJson(quotesFile);
-//        int rand = getRandom(quotes.length);
-//
-//        // Search for
-//        if (args.length > 0) {
-//            if (args[0].equals("author")){
-//                System.out.println(args[0]);
-//                System.out.println(Quote.searchAuthor(quotes, args[1]));
-//            }
-//            else if (args[0].equals("contains")){
-//                System.out.println(Quote.searchContains(quotes, args[1]));
-//            }
-//        } else {
-//            System.out.println(quotes[rand].toString());
-//        }
-    }
-
-    // Gets a random quotes from the Formismatic API
-    public static String getRandomQuoteFromInternet() {
+        // args = null -> get internet quote and save to file / get file quote if error
         try {
-            // Sends a GET request to Formismatic
-            URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            // Gets and prints internet quote to the console
+            InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
+            Quote randomQuote = internetQuoteGetter.getInternetQuote();
+            System.out.println(randomQuote.toString());
 
-            // Saves the response as a string
-            BufferedReader response = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine = response.readLine();
+            // Gets file quotes
+            FileQuoteGetter fileQuoteGetter = new FileQuoteGetter();
+            Path file = Paths.get("./resources/recentquotes.json");
+            Quote[] quotes = fileQuoteGetter.getFileQuotes(file);
 
-            // Closes the connection
-            response.close();
-            connection.disconnect();
-            return inputLine;
-        } catch (IOException error) {
-            System.out.println(error);
-        }
-        return null;
-    }
+            // Create a new array and adds the file quotes and internet quotes to it
+            Quote[] toSave = new Quote[quotes.length + 1];
+            for (int i = 0; i < quotes.length; i++) {
+                toSave[i] = quotes[i];
+            }
+            toSave[toSave.length - 1] = randomQuote;
 
-    // Reads a and returns a json file
-    public static BufferedReader readJsonFile(Path path) {
-        try {
-            BufferedReader file = Files.newBufferedReader(path);
-            return file;
-        } catch (IOException error) {
-            System.err.format("IOException: %s%n", error);
-        }
-        return null;
-    }
-
-    // Parses a json file using gson and returns an array of Quote instances
-    public static Quote[] parseJson(BufferedReader file) {
+            // Turns into json
             Gson gson = new Gson();
-            return gson.fromJson(file, Quote[].class);
-    }
+            String save = gson.toJson(toSave);
+            System.out.println("SAVE: " + save);
 
-    // Gets a random number
-    public static int getRandom(int num) {
-        return (int) Math.floor(Math.random()*(num));
+            //NOT WORKING FOR SOME REASON
+            //Saves quotes
+            try {
+                FileWriter fileWriter = new FileWriter("./resources/recentquotes2.json");
+                fileWriter.write(save);
+            } catch (IOException error) {
+                System.out.println("Quote not saved");
+            }
+
+        } catch (IOException error) {
+            System.out.println("Error: " + error);
+            try {
+                FileQuoteGetter fileQuoteGetter = new FileQuoteGetter();
+                Path file = Paths.get("./resources/recentquotes.json");
+                Quote quote = fileQuoteGetter.getRandomQuote(file);
+                System.out.println(quote.toString());
+            } catch(IOException otherError) {
+                System.out.println("Something has gone terribly wrong.");
+            }
+        }
+
     }
 }
