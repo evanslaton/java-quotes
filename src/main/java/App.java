@@ -1,8 +1,7 @@
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -15,31 +14,50 @@ import java.util.stream.Collectors;
  */
 public class App {
     public static void main(String[] args) {
-        // Gets random internet quote
-//        InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
-//        Quote randomQuote = internetQuoteGetter.getInternetQuote();
-//        System.out.println(randomQuote.toString());
+        // args = null -> get internet quote and save to file / get file quote if error
+        try {
+            // Gets and prints internet quote to the console
+            InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
+            Quote randomQuote = internetQuoteGetter.getInternetQuote();
+            System.out.println(randomQuote.toString());
 
-        // Gets random quote from the list of saved quotes
-        FileQuoteGetter fileQuoteGetter = new FileQuoteGetter();
-        Path file = Paths.get("./resources/recentquotes.json");
-        Quote[] quotes = fileQuoteGetter.getFileQuotes(file);
-        int randomNumber = fileQuoteGetter.getRandomNumber(quotes.length);
-        System.out.println(quotes[randomNumber].toString());
+            // Gets file quotes
+            FileQuoteGetter fileQuoteGetter = new FileQuoteGetter();
+            Path file = Paths.get("./resources/recentquotes.json");
+            Quote[] quotes = fileQuoteGetter.getFileQuotes(file);
 
+            // Create a new array and adds the file quotes and internet quotes to it
+            Quote[] toSave = new Quote[quotes.length + 1];
+            for (int i = 0; i < quotes.length; i++) {
+                toSave[i] = quotes[i];
+            }
+            toSave[toSave.length - 1] = randomQuote;
 
+            // Turns into json
+            Gson gson = new Gson();
+            String save = gson.toJson(toSave);
+            System.out.println("SAVE: " + save);
 
-        // Search for
-//        if (args.length > 0) {
-//            if (args[0].equals("author")){
-//                System.out.println(args[0]);
-//                System.out.println(Quote.searchAuthor(quotes, args[1]));
-//            }
-//            else if (args[0].equals("contains")){
-//                System.out.println(Quote.searchContains(quotes, args[1]));
-//            }
-//        } else {
-//            System.out.println(quotes[rand].toString());
-//        }
+            //NOT WORKING FOR SOME REASON
+            //Saves quotes
+            try {
+                FileWriter fileWriter = new FileWriter("./resources/recentquotes2.json");
+                fileWriter.write(save);
+            } catch (IOException error) {
+                System.out.println("Quote not saved");
+            }
+
+        } catch (IOException error) {
+            System.out.println("Error: " + error);
+            try {
+                FileQuoteGetter fileQuoteGetter = new FileQuoteGetter();
+                Path file = Paths.get("./resources/recentquotes.json");
+                Quote quote = fileQuoteGetter.getRandomQuote(file);
+                System.out.println(quote.toString());
+            } catch(IOException otherError) {
+                System.out.println("Something has gone terribly wrong.");
+            }
+        }
+
     }
 }

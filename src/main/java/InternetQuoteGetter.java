@@ -8,34 +8,30 @@ import java.net.URL;
 public class InternetQuoteGetter {
 
     // Converts the internet quote to an instance of Quote
-    public static Quote getInternetQuote() {
+    public static Quote getInternetQuote() throws IOException {
         String randomQuote = getRandomQuoteFromInternet();
         String author = getInternetQuoteAuthor(randomQuote);
         String text = getInternetQuoteText(randomQuote);
-        Quote quote = new Quote(null, author, null, text);
+        String[] tags = new String[0];
+        Quote quote = new Quote(tags, author, "0 likes", text);
         return quote;
     }
 
     // Gets a random quotes from the Formismatic API
-    protected static String getRandomQuoteFromInternet() {
-        try {
-            // Sends a GET request to Formismatic
-            URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+    protected static String getRandomQuoteFromInternet() throws IOException {
+        // Sends a GET request to Formismatic
+        URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
 
-            // Saves the response as a string
-            BufferedReader response = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String responseToString = response.readLine();
+        // Saves the response as a string
+        BufferedReader response = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String responseToString = response.readLine();
 
-            // Closes the connection
-            response.close();
-            connection.disconnect();
-            return responseToString;
-        } catch (IOException error) {
-            System.out.println(error);
-        }
-        return null;
+        // Closes the connection
+        response.close();
+        connection.disconnect();
+        return responseToString;
     }
 
     // Gets the internet quote's author

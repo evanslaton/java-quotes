@@ -8,22 +8,24 @@ import java.nio.file.Path;
 // Gets quotes from a json file and converts into an array of Quote instances
 public class FileQuoteGetter {
 
-    // Gets quotes from the file
-    public Quote[] getFileQuotes(Path path) {
+    // Gets a random quote from the quote file
+    public static Quote getRandomQuote(Path path) throws IOException {
+        Quote[] quotes = getFileQuotes(path);
+        int randomNumber = getRandomNumber(quotes.length);
+        return quotes[randomNumber];
+    }
+
+    // Gets quotes from the quote file
+    public static Quote[] getFileQuotes(Path path) throws IOException {
         BufferedReader quotesJson = readJsonFile(path);
         Quote[] quotes = parseJson(quotesJson);
         return quotes;
     }
 
     // Reads and returns a json file
-    public static BufferedReader readJsonFile(Path path) {
-        try {
-            BufferedReader file = Files.newBufferedReader(path);
-            return file;
-        } catch (IOException error) {
-            System.err.format("IOException: %s%n", error);
-        }
-        return null;
+    public static BufferedReader readJsonFile(Path path) throws IOException {
+        BufferedReader file = Files.newBufferedReader(path);
+        return file;
     }
 
     // Parses a json file using gson and returns an array of Quote instances
