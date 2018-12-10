@@ -41,8 +41,9 @@ public class App {
             //NOT WORKING FOR SOME REASON
             //Saves quotes
             try {
-                FileWriter fileWriter = new FileWriter("./resources/recentquotes2.json");
+                FileWriter fileWriter = new FileWriter("./resources/recentquotes.json");
                 fileWriter.write(save);
+                fileWriter.close();
             } catch (IOException error) {
                 System.out.println("Quote not saved");
             }
