@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class App {
     public static void main(String[] args) {
-        // args = null -> get internet quote and save to file / get file quote if error
+        // Get internet quote and save to file / get file quote if error
         try {
             // Gets and prints internet quote to the console
             InternetQuoteGetter internetQuoteGetter = new InternetQuoteGetter();
@@ -36,9 +36,7 @@ public class App {
             // Turns into json
             Gson gson = new Gson();
             String save = gson.toJson(toSave);
-            System.out.println("SAVE: " + save);
 
-            //NOT WORKING FOR SOME REASON
             //Saves quotes
             try {
                 FileWriter fileWriter = new FileWriter("./resources/recentquotes.json");
@@ -47,7 +45,6 @@ public class App {
             } catch (IOException error) {
                 System.out.println("Quote not saved");
             }
-
         } catch (IOException error) {
             System.out.println("Error: " + error);
             try {
